@@ -15,6 +15,7 @@ body{
     background-color: #014BAA;
     z-index: 999;
      position: fixed;
+     overflow:hidden;
 }
 
 #logo{
@@ -55,8 +56,8 @@ ion-icon{
 #searchbook{
     position:absolute;
     margin-left:440px;
-    margin-top:-40px;
-    height:30px;
+    margin-top:-43px;
+    height:35px;
     width:250px;
     border-radius:1000px;
     border-style:none;
@@ -78,7 +79,7 @@ ion-icon{
     margin-left:-470px;
     z-index:1;
     position: absolute;
-    animation: move linear 3s;
+    animation: move linear 4s;
 }
 
 @keyframes move{
@@ -87,7 +88,7 @@ ion-icon{
     }
 
     to{
-        transform:translateX(2000px);
+        transform:translateX(130vw);
     }
 }
 
@@ -141,7 +142,7 @@ ion-icon{
     border:5px solid #014BAA;
     border-radius: 20px;
     margin-right:10px;
-    margin-top:100px;
+    margin-top:80px;
     width:1080px;
     height:600px;
     object-fit:cover;
