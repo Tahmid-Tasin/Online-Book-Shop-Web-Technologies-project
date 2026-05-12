@@ -12,12 +12,32 @@
 <body>
     <nav id="topbar">
         <p id="logo">BookStore.com</p>
-        <input type="text" placeholder="Search your book" id="searchbook">
+        <input type="text" placeholder="             Search your book" id="searchbook">
         <button id="searchbtn"><ion-icon name="search-outline"></ion-icon></button>
         <a href="" id="aboutus" class="aco">About Us</a>
         <a href="" id="contactus" class="aco">Contact Us</a>
         <a href="" id="location" class="aco">Outlet Location</a>
         <img src="truck.png" id="truck">
     </nav>
+
+    <div class="slider">
+    <div class="slides">
+
+        <img src="./posters/poster1.jpeg" alt="" id="p1" class="posters">
+        <img src="./posters/poster2.jpeg" alt="" id="p2" class="posters">
+        <img src="./posters/poster3.jpeg" alt="" id="p3" class="posters">
+        <img src="./posters/poster4.jpeg" alt="" id="p4" class="posters">
+        <img src="./posters/poster5.jpeg" alt="" id="p5" class="posters">
+        <img src="./posters/poster6.jpeg" alt="" id="p6" class="posters">
+
+        <img src="./posters/poster1.jpeg" class="posters">
+        <img src="./posters/poster2.jpeg" class="posters">
+        <img src="./posters/poster3.jpeg" class="posters">
+        <img src="./posters/poster4.jpeg" class="posters">
+        <img src="./posters/poster5.jpeg" class="posters">
+        <img src="./posters/poster6.jpeg" class="posters">
+
+    </div>
+</div>
 </body>
 </html>
