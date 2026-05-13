@@ -124,8 +124,6 @@ ion-icon{
         color:#F8F3F0;
 }
 
-
-
 .slider{
     width:100%;
     height:100vh;
@@ -148,18 +146,61 @@ ion-icon{
     width:1080px;
     height:600px;
     object-fit:cover;
-    
 }
 
 @keyframes slide{
 
-     from{
+    from{
         transform: translateX(0);
     }
 
     to{
-        transform: translateX(-6600px);
+        transform: translateX(-50%);
     }
-
  
+}
+
+.locationframe{
+    height:600px;
+    width:1000px;
+    background-color: white;
+    border: 2px solid #014BAA;
+    margin-left:270px;
+    margin-top:-700px;
+    z-index:4;
+    position: fixed;
+    border-radius:20px;
+    box-shadow: 40px 40px 500px #014BAA;
+    display:none;
+}
+
+#locationclose{
+    margin-left:950px;
+    margin-top:10px;
+    height:30px;
+    width:30px;
+    border-radius: 100%;
+    border:1px solid #014BAA;
+    color:#014BAA;
+   
+}
+
+#locationclose:hover{
+    background-color: #014BAA;
+    color:white;
+}
+
+iframe{
+    margin-left:40px;
+    margin-top:10px;
+    border:2px solid #014BAA;
+    border-radius:20px;
+}
+
+#loctext{
+    margin-left: 550px;
+    margin-top:-270px;
+    font-size:20px;
+    font-weight:500;
+    color:#014BAA;
 }

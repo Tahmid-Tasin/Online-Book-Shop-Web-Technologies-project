@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,17 +9,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+
+
     <nav id="topbar">
         <p id="logo">BookStore.com</p>
         <input type="text" placeholder="             Search your book" id="searchbook">
         <button id="searchbtn"><ion-icon name="search-outline"></ion-icon></button>
-        <a href="" id="aboutus" class="aco">About Us</a>
-        <a href="" id="contactus" class="aco">Contact Us</a>
-        <a href="" id="location" class="aco">Outlet Location</a>
+        <span href="" id="aboutus" class="aco">About Us</span>
+        <span href="" id="contactus" class="aco">Contact Us</span>
+        <span href="" id="location" class="aco">Outlet Location</span>
         <img src="truck.png" id="truck">
     </nav>
 
-    <div class="slider">
+<div class="slider">
     <div class="slides">
 
         <img src="./posters/poster1.jpeg" alt="" id="p1" class="posters">
@@ -39,5 +41,17 @@
 
     </div>
 </div>
+
+
+<div class="locationframe">
+    <button id="locationclose"><ion-icon name="close-outline"></ion-icon></button>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.900859444374!2d90.4274063!3d23.822124199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c711d13bbec7%3A0xc47f7c3e8e2263f2!2sAmerican%20International%20University%20-%20Bangladesh%20(AIUB)!5e0!3m2!1sen!2sbd!4v1778690348915!5m2!1sen!2sbd" width="450" height="500"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p id="loctext">Shop Location:American International University - Bangladesh <br>
+             (AIUB) 408, RCCG+VX3, 1 Kuratoli, Dhaka 1229
+        </p>
+</div>
+
+
+<script src="script.js"></script>
 </body>
 </html>
