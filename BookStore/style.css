@@ -104,18 +104,46 @@ ion-icon{
 }
 
 #aboutus{
-    margin-left:900px;
-  
+    margin-left:1150px;
+    border:3px solid white;
+    border-radius:100%;  
+    transition: 0.5s;
+}
+
+#aboutus:hover{
+    background-color: #F8F3F0;
+    color:#014BAA;
+    transform: scale(1.1); 
 }
 
 #contactus{
-    margin-left:1020px;
-    
+    margin-left:1200px;
+    border:3px solid white;
+    border-radius:100%;    
+}
+
+#contactus:hover{
+    background-color: #F8F3F0;
+    color:#014BAA;
+    transform: scale(1.1);     
 }
 
 #location{
-    margin-left:1150px;
-    
+    margin-left:1250px;
+    border:3px solid white;
+    border-radius:100%;
+}
+
+#location:hover{
+    background-color: #F8F3F0;
+    color:#014BAA;
+    transform: scale(1.1); 
+}
+
+#login{
+
+    right:30px;
+
 }
 
 .aco:hover{
@@ -204,3 +232,5 @@ iframe{
     font-weight:500;
     color:#014BAA;
 }
+
+

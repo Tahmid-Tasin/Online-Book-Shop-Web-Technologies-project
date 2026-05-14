@@ -9,16 +9,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
-
-    <nav id="topbar">
+   <nav id="topbar">
         <p id="logo">BookStore.com</p>
         <input type="text" placeholder="             Search your book" id="searchbook">
         <button id="searchbtn"><ion-icon name="search-outline"></ion-icon></button>
-        <span href="" id="aboutus" class="aco">About Us</span>
-        <span href="" id="contactus" class="aco">Contact Us</span>
-        <span href="" id="location" class="aco">Outlet Location</span>
+        <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
+        <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
+        <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
+        <a href="" id="login" class="aco">Login</a>
         <img src="truck.png" id="truck">
     </nav>
 
