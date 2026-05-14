@@ -1,5 +1,6 @@
 <?php
 include '../config/database.php';
+require_once '../config/database.php';
 
 $query = "
 SELECT 
