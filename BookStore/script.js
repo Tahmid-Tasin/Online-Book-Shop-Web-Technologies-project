@@ -71,13 +71,13 @@ function searchBooks()
 
 if (path.includes("book_details.php") || path.includes("book_list.php"))
 {
-    // book folder থেকে search
+  
     url = "../cart/search_book.php";
     detailsPath = "../book/book_details.php?id=";
 }
 else
 {
-    // index.php থেকে search
+
     url = "cart/search_book.php";
     detailsPath = "book/book_details.php?id=";
 }
@@ -127,28 +127,7 @@ else
         }
 
 
-document.querySelectorAll(".status-btn").forEach(button => {
-    button.addEventListener("click", function () {
 
-        let orderId = this.getAttribute("data-id");
-        let status = this.getAttribute("data-status");
-
-        fetch("update_status.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: "id=" + orderId + "&status=" + status
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert(data);
-            location.reload(); // refresh table after update
-        })
-        .catch(error => console.error("Error:", error));
-
-    });
-});
 
 
 
