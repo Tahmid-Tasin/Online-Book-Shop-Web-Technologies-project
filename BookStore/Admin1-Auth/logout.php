@@ -1,5 +1,5 @@
-<?php
-require 'includes/db.php';
+﻿<?php
+include 'auth_common.php';
 $_SESSION = [];
 session_destroy();
 setcookie('remember_email', '', time() - 3600, '/');
