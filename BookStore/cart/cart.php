@@ -49,6 +49,8 @@ $total = 0;
 { 
 $subtotal = $row['price'] * $row['quantity'];
 $total += $subtotal;
+
+
 ?>
 
 <div class="card">
@@ -62,11 +64,19 @@ $total += $subtotal;
     </p>
     <p>Subtotal: <?php echo $subtotal; ?> Tk</p>
     <button onclick="removeCart(<?php echo $row['id']; ?>)">Remove</button>
+
 </div>
+
+
 <?php 
-} ?>
+} 
+$_SESSION['cart_total'] = $total;
+?>
 
 <h2>Total: <?php echo $total; ?> Tk</h2>
+    <button onclick="window.location.href='./checkout.php'">
+    Confirm Order
+    </button>
 <script src="../script.js"></script>
 </body>
 </html>

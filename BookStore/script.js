@@ -101,3 +101,25 @@ function searchBooks()
         console.error("Error:", err);
     });
 }
+
+
+ function validateForm() {
+            let payment = document.getElementById("payment").value;
+            let address = document.getElementById("address").value;
+
+            if (payment === "") {
+                alert("Please select a payment method!");
+                return false;
+            }
+
+            if (address.trim() === "") {
+                alert("Please enter your address!");
+                return false;
+            }
+            if (address.length < 5) {
+                alert("Address is too short!");
+                return false;
+            }
+
+            return true; 
+        }
