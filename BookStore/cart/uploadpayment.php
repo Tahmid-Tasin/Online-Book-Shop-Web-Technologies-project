@@ -7,34 +7,22 @@ if(!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
-$total = $_SESSION['cart_total'];
+if(!isset($_SESSION['order_id'])) {
+    die("No order found");
+}
 
-$pmethod = $_POST['payment_method'];
+$order_id = $_SESSION['order_id'];
+$total = $_SESSION['cart_total'];
+$pmethod = $_SESSION['payment_method'];
+
 $transaction_id = time();
 
-/* STEP 1: Get latest order */
-$query = "SELECT order_id FROM orders WHERE user_id = $user_id";
-$result = mysqli_query($conn, $query);
-
-if (!$result) {
-    die("Query failed: " . mysqli_error($conn));
-}
-
-$row = mysqli_fetch_assoc($result);
-
-/* STEP 2: check if order exists */
-if (!$row) {
-    die("No order found for this user");
-}
-
-$order_id = $row['id'];
-
-/* STEP 3: insert payment */
+/* Insert payment */
 $stmt = mysqli_prepare(
     $conn,
-    "INSERT INTO payments (order_id, amount, payment_method, transaction_id)
-     VALUES (?, ?, ?, ?)"
+    "INSERT INTO payments
+    (order_id, amount, payment_method, transaction_id)
+    VALUES (?, ?, ?, ?)"
 );
 
 mysqli_stmt_bind_param(
@@ -46,12 +34,19 @@ mysqli_stmt_bind_param(
     $transaction_id
 );
 
-if (mysqli_stmt_execute($stmt)) {
+if(mysqli_stmt_execute($stmt))
+{
     echo "Payment inserted successfully";
-} else {
+}
+else
+{
     echo "Error: " . mysqli_error($conn);
 }
 
-header("Location: ../book_list.php");
+/* optional cleanup */
+unset($_SESSION['order_id']);
+unset($_SESSION['payment_method']);
+
+header("Location: ../book/book_list.php");
 exit;
 ?>

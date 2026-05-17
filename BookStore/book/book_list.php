@@ -33,10 +33,11 @@ $result = mysqli_query($conn,$sql);
         </select>
        
         <button id="searchbtn" onclick="searchBooks()"><ion-icon name="search-outline"></ion-icon></button>
-        <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
+        <a href="../cart/history.php" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></a>
         <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
         <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
         <img src="../truck.png" id="truck">
+        <a href="../Admin1-Auth/logout.php" id="login" class="aco">Logout</a>
     </nav>
 
 <div class="slider">

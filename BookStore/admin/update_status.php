@@ -1,28 +1,57 @@
 <?php
-include '../config/database.php';
+session_start();
+include "../config/database.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+header("Content-Type: application/json");
 
-    $id = intval($_POST['id']);
-    $status = $_POST['status'];
+if(
+    !isset($_POST['order_id']) ||
+    !isset($_POST['status'])
+){
+    echo json_encode([
+        "success" => false
+    ]);
+    exit;
+}
 
-    $allowed = ['pending', 'confirmed', 'shipped', 'delivered'];
+$order_id = intval($_POST['order_id']);
+$status = $_POST['status'];
 
-    if (!in_array($status, $allowed)) {
-        die("Invalid status");
-    }
+$allowed = [
+    "confirmed",
+    "shipped",
+    "delivered"
+];
 
-    $stmt = mysqli_prepare(
-        $conn,
-        "UPDATE orders SET status=? WHERE id=?"
-    );
+if(!in_array($status, $allowed)){
+    echo json_encode([
+        "success" => false
+    ]);
+    exit;
+}
 
-    mysqli_stmt_bind_param($stmt, "si", $status, $id);
+$stmt = mysqli_prepare(
+    $conn,
+    "UPDATE orders
+     SET status=?
+     WHERE id=?"
+);
 
-    if (mysqli_stmt_execute($stmt)) {
-        echo "Status updated successfully";
-    } else {
-        echo "Database update failed";
-    }
+mysqli_stmt_bind_param(
+    $stmt,
+    "si",
+    $status,
+    $order_id
+);
+
+if(mysqli_stmt_execute($stmt)){
+    echo json_encode([
+        "success" => true
+    ]);
+}
+else{
+    echo json_encode([
+        "success" => false
+    ]);
 }
 ?>
