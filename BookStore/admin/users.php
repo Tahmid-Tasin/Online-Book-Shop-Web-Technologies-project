@@ -1,7 +1,4 @@
-<?php 
-// This single line brings in your styles, security check, and database connection!
-include 'admin_nav.php'; 
-?>
+<?php include 'admin_nav.php'; ?>
 
 <div class="page-header">
     <h1>All Registered Users</h1>
@@ -14,10 +11,10 @@ include 'admin_nav.php';
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Registration Date</th>
         <th>Action</th>
     </tr>
     <?php
-    // Fetch all users, newest first
     $query = "SELECT * FROM users ORDER BY id DESC";
     $result = mysqli_query($conn, $query);
 
@@ -27,6 +24,7 @@ include 'admin_nav.php';
             <td><?php echo htmlspecialchars($row['name']); ?></td>
             <td><?php echo htmlspecialchars($row['email']); ?></td>
             <td><strong><?php echo ucfirst($row['role']); ?></strong></td>
+            <td><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
             <td>
                 <?php if($row['role'] == 'customer'){ ?>
                     <button class="btn btn-danger" onclick="deleteUser(<?php echo $row['id']; ?>)">Remove Customer</button>
@@ -40,7 +38,7 @@ include 'admin_nav.php';
 
 <script>
 function deleteUser(id) {
-    if(confirm("Are you sure you want to permanently remove this customer and all their data?")) {
+    if(confirm("Are you sure you want to permanently remove this customer and all their data (orders, cart, etc)?")) {
         let formData = new FormData();
         formData.append("user_id", id);
 
@@ -51,19 +49,17 @@ function deleteUser(id) {
         .then(response => response.json())
         .then(data => {
             if(data.success) {
-                // Instantly remove the row from the table if successful
                 document.getElementById('user_row_' + id).style.display = 'none';
             } else {
-                alert("Failed to delete user. Make sure delete_user.php exists.");
+                alert("Failed to delete user.");
             }
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while trying to delete.");
+            alert("An error occurred.");
         });
     }
 }
 </script>
-
 </body>
 </html>
