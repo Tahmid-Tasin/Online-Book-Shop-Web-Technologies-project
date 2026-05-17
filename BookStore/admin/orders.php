@@ -33,6 +33,7 @@ $result = mysqli_query($conn, $query);
     <th>Payment Method</th>
     <th>Status</th>
     <th>Order Date</th>
+    <th colspan=3>Control Status</th>
 </tr>
 
 <?php while($row = mysqli_fetch_assoc($result)) { ?>
@@ -50,9 +51,14 @@ $result = mysqli_query($conn, $query);
     <td><?php echo $row['status']; ?></td>
 
     <td><?php echo $row['order_date']; ?></td>
+<td><button class="status-btn" data-id="<?php echo $row['id']; ?>" data-status="confirmed">Confirmed</button></td>
+<td><button class="status-btn" data-id="<?php echo $row['id']; ?>" data-status="shipped">Shipped</button></td>
+<td><button class="status-btn" data-id="<?php echo $row['id']; ?>" data-status="delivered">Delivered</button></td>
 
 </tr>
 
 <?php } ?>
 
 </table>
+
+<script src="./script.js"></script>

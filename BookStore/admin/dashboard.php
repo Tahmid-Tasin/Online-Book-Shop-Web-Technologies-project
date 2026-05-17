@@ -48,4 +48,5 @@ $revenue = mysqli_fetch_assoc($revenue_result);
 
 </div>
 
-<a href="">View Orders</a>
+<a href="orders.php">View Orders</a>
+<a href="books.php">Books</a>

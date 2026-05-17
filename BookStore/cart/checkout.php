@@ -16,8 +16,7 @@ $total = $_SESSION['cart_total'];
     <link rel="stylesheet" href="../style.css">
 </head>
 <body><h3>Total: <?php echo $total; ?></h3>
-
-<form action="" method="POST" onsubmit="return validateForm()">
+<form action="../book/book_list.php" method="POST" onsubmit="return validateForm()">
 
     <label for="payment">Select Payment Method:</label>
     <select id="payment" name="payment_method" required>
@@ -39,6 +38,8 @@ $total = $_SESSION['cart_total'];
 
     <input type="submit" value="Submit Order">
 
-    <script src="../script.js"></script>
+</form>
+
+<script src="../script.js"></script>
 </body>
 </html>

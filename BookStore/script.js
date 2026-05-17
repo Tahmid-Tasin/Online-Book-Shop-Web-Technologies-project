@@ -87,7 +87,7 @@ function searchBooks()
         data.forEach(book => {
             html += `
             <div class="card">
-                <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>"> 
+                <img src="images/${book.image_path}">
                 <h2>${book.title}</h2>
                 <p>${book.author}</p>
                 <p>${book.price} Tk</p>
@@ -123,3 +123,30 @@ function searchBooks()
 
             return true; 
         }
+
+
+document.querySelectorAll(".status-btn").forEach(button => {
+    button.addEventListener("click", function () {
+
+        let orderId = this.getAttribute("data-id");
+        let status = this.getAttribute("data-status");
+
+        fetch("update_status.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id=" + orderId + "&status=" + status
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            location.reload(); // refresh table after update
+        })
+        .catch(error => console.error("Error:", error));
+
+    });
+});
+
+
+
