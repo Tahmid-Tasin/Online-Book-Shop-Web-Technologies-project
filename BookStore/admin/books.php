@@ -1,33 +1,41 @@
-<?php
-include '../config/database.php';
+<?php include 'admin_nav.php'; ?>
 
-$query = "SELECT * FROM books";
-$result = mysqli_query($conn, $query);
-?>
+<div class="page-header">
+    <h1>Manage Books</h1>
+    <a href="add_book.php" class="btn">Add New Book</a>
+</div>
 
-<h1>List of Books</h1>
-
-<table border="1">
+<table>
     <tr>
         <th>ID</th>
+        <th>Image</th>
         <th>Title</th>
         <th>Author</th>
         <th>Price</th>
+        <th>Stock</th>
         <th>Actions</th>
     </tr>
-
-    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+    <?php
+    $result = mysqli_query($conn, "SELECT * FROM books ORDER BY id DESC");
+    while ($row = mysqli_fetch_assoc($result)) { ?>
         <tr>
             <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['title']; ?></td>
-            <td><?php echo $row['author']; ?></td>
-            <td><?php echo $row['price']; ?></td>
             <td>
-                <a href="edit_book.php?id=<?php echo $row['id']; ?>">Edit</a>
-                <a href="delete_book.php?id=<?php echo $row['id']; ?>">Delete</a>
+                <?php if($row['image_path']){ ?>
+                    <img src="../public/uploads/books/<?php echo $row['image_path']; ?>" width="50">
+                <?php } ?>
+            </td>
+            <td><?php echo htmlspecialchars($row['title']); ?></td>
+            <td><?php echo htmlspecialchars($row['author']); ?></td>
+            <td>$<?php echo $row['price']; ?></td>
+            <td><?php echo $row['stock']; ?></td>
+            <td>
+                <a href="edit_book.php?id=<?php echo $row['id']; ?>" class="btn">Edit</a>
+                <a href="delete_book.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" onclick="return confirm('Delete this book?');">Delete</a>
             </td>
         </tr>
     <?php } ?>
 </table>
 
-<a href="add_book.php">Add New Book</a>
+</body>
+</html>

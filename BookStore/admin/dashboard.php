@@ -1,53 +1,62 @@
-<?php
-include '../config/database.php';
+<?php 
+// Turn on error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-//Total Books
-$books_query = "SELECT COUNT(*) AS total_books FROM books";
-$books_result = mysqli_query($conn, $books_query);
-$books = mysqli_fetch_assoc($books_result);
+include 'admin_nav.php'; 
 
-//Total Users
-$users_query = "SELECT COUNT(*) AS total_users FROM users";
-$users_result = mysqli_query($conn, $users_query);
-$users = mysqli_fetch_assoc($users_result);
+// Force the database connection to load right here so $conn is guaranteed to exist
+require_once '../config/database.php';
 
-//Total Orders
-$orders_query = "SELECT COUNT(*) AS total_orders FROM orders";
-$orders_result = mysqli_query($conn, $orders_query);
-$orders = mysqli_fetch_assoc($orders_result);
+// Helper function to safely execute queries and avoid fatal errors
+function safe_query_value($conn, $query) {
+    // Check if $conn is actually valid before running the query
+    if (!$conn) {
+        return 0;
+    }
+    
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        if ($row) {
+            // Get the first column's value safely
+            $value = array_values($row)[0];
+            return $value ? $value : 0;
+        }
+    }
+    return 0;
+}
 
-//Total Revenue
-$revenue_query = "SELECT SUM(total_amount) AS total_revenue FROM orders";
-$revenue_result = mysqli_query($conn, $revenue_query);
-$revenue = mysqli_fetch_assoc($revenue_result);
+// Fetch stats safely
+$books   = safe_query_value($conn, "SELECT COUNT(*) FROM books");
+$users   = safe_query_value($conn, "SELECT COUNT(*) FROM users WHERE role='customer'");
+$orders  = safe_query_value($conn, "SELECT COUNT(*) FROM orders");
+$revenue = safe_query_value($conn, "SELECT SUM(total_amount) FROM orders WHERE status='delivered'");
 ?>
 
-<h1>Admin Dashboard</h1>
-
-<div style="display:flex; gap:20px;">
-
-    <div style="border:1px solid black; padding:20px;">
-        <h2>Total Books</h2>
-        <p><?php echo $books['total_books']; ?></p>
-    </div>
-
-    <div style="border:1px solid black; padding:20px;">
-        <h2>Total Users</h2>
-        <p><?php echo $users['total_users']; ?></p>
-    </div>
-
-    <div style="border:1px solid black; padding:20px;">
-        <h2>Total Orders</h2>
-        <p><?php echo $orders['total_orders']; ?></p>
-    </div>
-
-    <div style="border:1px solid black; padding:20px;">
-        <h2>Total Revenue</h2>
-        <p>$<?php echo $revenue['total_revenue']; ?></p>
-    </div>
-
+<div class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Overview of bookstore operations.</p>
 </div>
 
-<a href="orders.php">View Orders</a>
-<a href="books.php">Books</a>
-<a href="users.php">Users</a>
+<div class="dashboard-container">
+    <div class="card">
+        <h3>Total Books</h3>
+        <h2><?php echo intval($books); ?></h2>
+    </div>
+    <div class="card">
+        <h3>Total Customers</h3>
+        <h2><?php echo intval($users); ?></h2>
+    </div>
+    <div class="card">
+        <h3>Total Orders</h3>
+        <h2><?php echo intval($orders); ?></h2>
+    </div>
+    <div class="card">
+        <h3>Total Revenue (Delivered)</h3>
+        <h2><?php echo number_format((float)$revenue, 2); ?> Tk</h2>
+    </div>
+</div>
+
+</body>
+</html>
