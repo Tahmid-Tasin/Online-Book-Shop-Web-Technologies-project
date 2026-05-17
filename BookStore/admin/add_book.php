@@ -1,6 +1,6 @@
 <?php
-include '../config/database.php';
 require_once '../config/database.php';
+require_once 'admin_check.php';
 
 if(isset($_POST['submit'])){
     $title = $_POST['title'];

@@ -1,5 +1,6 @@
 <?php
-include '../config/database.php';
+require_once 'admin_check.php';
+require_once '../config/database.php';
 
 if(isset($_GET['id'])){
 
