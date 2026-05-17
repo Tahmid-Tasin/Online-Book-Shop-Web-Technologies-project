@@ -1,3 +1,7 @@
+
+
+<html>
+
 <section class="panel narrow">
     <h1>Login</h1>
     <?php if (!empty($error)): ?><div class="alert danger"><?= e($error) ?></div><?php endif; ?>
@@ -14,3 +18,5 @@
         <p class="muted">New customer or admin? <a href="<?= url('register') ?>">Create account</a></p>
     </form>
 </section>
+
+</html>

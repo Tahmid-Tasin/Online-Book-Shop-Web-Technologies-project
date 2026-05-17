@@ -1,3 +1,13 @@
+<?php
+include './config/database.php';
+
+$sql = "SELECT * FROM books";
+$result = mysqli_query($conn,$sql);
+
+?>
+
+
+
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +26,7 @@
         <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
         <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
         <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
-        <a href="" id="login" class="aco">Login</a>
+        <a href="./Admin1-Auth/Views/auth/login.php" id="login" class="aco">Login</a>
         <img src="truck.png" id="truck">
     </nav>
 
@@ -39,6 +49,27 @@
 
     </div>
 </div>
+
+
+<?php while($row=mysqli_fetch_assoc($result)){ ?>
+
+<div class="card">
+
+    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>">
+
+    <h2><?php echo htmlspecialchars($row['title']); ?></h2>
+
+    <p><?php echo htmlspecialchars($row['author']); ?></p>
+
+    <p><?php echo $row['price']; ?> Tk</p>
+
+    <a href="book_details.php?id=<?php echo $row['id']; ?>">
+        View Details
+    </a>
+
+</div>
+
+<?php } ?>
 
 
 <div class="locationframe">
