@@ -1,3 +1,9 @@
+﻿<?php
+include "./config/database.php";
+
+$sql = "SELECT * FROM books";
+$result = mysqli_query($conn,$sql);
+?>
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,15 +16,20 @@
 </head>
 <body>
 
-
-
-    <nav id="topbar">
+   <nav id="topbar">
         <p id="logo">BookStore.com</p>
-        <input type="text" placeholder="             Search your book" id="searchbook">
-        <button id="searchbtn"><ion-icon name="search-outline"></ion-icon></button>
-        <span href="" id="aboutus" class="aco">About Us</span>
-        <span href="" id="contactus" class="aco">Contact Us</span>
-        <span href="" id="location" class="aco">Outlet Location</span>
+
+        <input type="text" id="searchBox" placeholder="Search your book">
+        <select id="filter">
+           <option value="title">Title</option>
+           <option value="author">Author</option>
+        </select>
+       
+        <button id="searchbtn" onclick="searchBooks()"><ion-icon name="search-outline"></ion-icon></button>
+        <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
+        <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
+        <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
+        <a href="./Admin1-Auth/login.php" id="login" class="aco">Sign Up / Login</a>
         <img src="truck.png" id="truck">
     </nav>
 
@@ -42,6 +53,17 @@
     </div>
 </div>
 
+<div class="container" id="bookContainer">
+<?php while($row=mysqli_fetch_assoc($result)){ ?>
+<div class="card">
+    <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>">
+    <h2><?php echo htmlspecialchars($row['title']); ?></h2>
+    <p><?php echo htmlspecialchars($row['author']); ?></p>
+    <p><?php echo $row['price']; ?> Tk</p>
+    <a href="./book/book_details.php?id=<?php echo $row['id']; ?>">View Details</a>
+</div>
+<?php } ?>
+</div>
 
 <div class="locationframe">
     <button id="locationclose"><ion-icon name="close-outline"></ion-icon></button>
