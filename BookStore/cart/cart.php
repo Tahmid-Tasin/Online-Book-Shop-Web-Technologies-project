@@ -3,9 +3,9 @@ session_start();
 
 if(!isset($_SESSION['user_id']))
 {
-    die("Please login first");
-}
-
+    header("Location: ../Admin1-Auth/login.php");
+    exit;
+} 
 include "../config/database.php";
 
 $user_id = $_SESSION['user_id'];

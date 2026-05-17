@@ -69,16 +69,18 @@ function searchBooks()
     let url = "";
     let detailsPath = "";
 
-    if(path.includes("/book/"))
-    {
-        url = "../cart/search_book.php";
-        detailsPath = "../book/book_details.php?id=";
-    }
-    else
-    {
-        url = "cart/search_book.php";
-        detailsPath = "book/book_details.php?id=";
-    }
+if (path.includes("book_details.php") || path.includes("book_list.php"))
+{
+    // book folder থেকে search
+    url = "../cart/search_book.php";
+    detailsPath = "../book/book_details.php?id=";
+}
+else
+{
+    // index.php থেকে search
+    url = "cart/search_book.php";
+    detailsPath = "book/book_details.php?id=";
+}
 
     fetch(url + "?q=" + q + "&filter=" + filter)
     .then(response => response.json())
