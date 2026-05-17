@@ -1,65 +1,60 @@
 <?php
-declare(strict_types=1);
+require 'includes/db.php';
+require 'includes/functions.php';
 
-class Book extends Model
-{
-    public function categories(): array
-    {
-        return $this->db->query('SELECT * FROM categories ORDER BY name')->fetchAll();
-    }
+$id = (int) ($_GET['id'] ?? 0);
+$stmt = $pdo->prepare('SELECT b.*, c.name AS category_name FROM books b JOIN categories c ON c.id = b.category_id WHERE b.id = ?');
+$stmt->execute([$id]);
+$book = $stmt->fetch();
+if (!$book) die('Book not found.');
 
-    public function latest(): array
-    {
-        return $this->db->query('SELECT b.*, c.name AS category_name FROM books b LEFT JOIN categories c ON c.id = b.category_id ORDER BY b.created_at DESC LIMIT 8')->fetchAll();
-    }
-
-    public function byCategory(int $categoryId): array
-    {
-        $stmt = $this->db->prepare('SELECT b.*, c.name AS category_name FROM books b LEFT JOIN categories c ON c.id = b.category_id WHERE b.category_id = ? ORDER BY b.title');
-        $stmt->execute([$categoryId]);
-        return $stmt->fetchAll();
-    }
-
-    public function find(int $id): ?array
-    {
-        $stmt = $this->db->prepare('SELECT b.*, c.name AS category_name FROM books b LEFT JOIN categories c ON c.id = b.category_id WHERE b.id = ?');
-        $stmt->execute([$id]);
-        return $stmt->fetch() ?: null;
-    }
-
-    public function all(): array
-    {
-        return $this->db->query('SELECT b.*, c.name AS category_name FROM books b LEFT JOIN categories c ON c.id = b.category_id ORDER BY b.created_at DESC')->fetchAll();
-    }
-
-    public function search(string $q, string $filter): array
-    {
-        $q = '%' . $q . '%';
-        $column = match ($filter) {
-            'author' => 'b.author',
-            'genre' => 'c.name',
-            default => 'b.title',
-        };
-
-        $stmt = $this->db->prepare("SELECT b.id, b.title, b.author, b.description, b.price, b.stock, c.name AS category_name FROM books b LEFT JOIN categories c ON c.id = b.category_id WHERE {$column} LIKE ? ORDER BY b.title LIMIT 20");
-        $stmt->execute([$q]);
-        return $stmt->fetchAll();
-    }
-
-    public function save(array $data, ?int $id = null): bool
-    {
-        if ($id) {
-            $stmt = $this->db->prepare('UPDATE books SET title = ?, author = ?, description = ?, price = ?, category_id = ?, image_path = ?, stock = ? WHERE id = ?');
-            return $stmt->execute([$data['title'], $data['author'], $data['description'], $data['price'], $data['category_id'], $data['image_path'], $data['stock'], $id]);
+$message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_customer();
+    $quantity = max(1, (int) ($_POST['quantity'] ?? 1));
+    if ($quantity > (int) $book['stock']) {
+        $message = 'Stock not available.';
+    } else {
+        $stmt = $pdo->prepare('SELECT id FROM cart WHERE user_id = ? AND book_id = ?');
+        $stmt->execute([$_SESSION['user_id'], $id]);
+        if ($stmt->fetch()) {
+            $stmt = $pdo->prepare('UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND book_id = ?');
+            $stmt->execute([$quantity, $_SESSION['user_id'], $id]);
+        } else {
+            $stmt = $pdo->prepare('INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)');
+            $stmt->execute([$_SESSION['user_id'], $id, $quantity]);
         }
-
-        $stmt = $this->db->prepare('INSERT INTO books (title, author, description, price, category_id, image_path, stock) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        return $stmt->execute([$data['title'], $data['author'], $data['description'], $data['price'], $data['category_id'], $data['image_path'], $data['stock']]);
-    }
-
-    public function delete(int $id): bool
-    {
-        $stmt = $this->db->prepare('DELETE FROM books WHERE id = ? AND id NOT IN (SELECT book_id FROM order_items)');
-        return $stmt->execute([$id]);
+        $message = 'Added to cart.';
     }
 }
+
+$pageTitle = $book['title'];
+require 'includes/header.php';
+?>
+<section class="panel book-detail">
+    <div class="book-cover large">
+        <?php if (!empty($book['image_path'])): ?>
+            <img src="<?php echo e($book['image_path']); ?>" alt="<?php echo e($book['title']); ?>">
+        <?php else: ?>
+            <span><?php echo e(substr($book['title'], 0, 1)); ?></span>
+        <?php endif; ?>
+    </div>
+    <div>
+        <p class="eyebrow"><?php echo e($book['category_name']); ?></p>
+        <h1><?php echo e($book['title']); ?></h1>
+        <p class="muted">By <?php echo e($book['author']); ?></p>
+        <p><?php echo e($book['description']); ?></p>
+        <p><strong>Price:</strong> ৳<?php echo e($book['price']); ?></p>
+        <p><strong>Stock:</strong> <?php echo (int) $book['stock'] > 0 ? e($book['stock']) : 'Out of stock'; ?></p>
+        <?php if ($message): ?><div class="alert success"><?php echo e($message); ?></div><?php endif; ?>
+        <?php if (is_customer()): ?>
+            <form class="form compact js-cart-form" method="post">
+                <label>Quantity <input type="number" name="quantity" value="1" min="1" max="<?php echo e($book['stock']); ?>"></label>
+                <button class="button primary" type="submit">Add to Cart</button>
+            </form>
+        <?php else: ?>
+            <p><a class="button primary" href="login.php">Login as customer to add to cart</a></p>
+        <?php endif; ?>
+    </div>
+</section>
+<?php require 'includes/footer.php'; ?>
