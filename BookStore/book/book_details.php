@@ -3,14 +3,10 @@
 session_start();
 
 if(!isset($_SESSION['user_id'])){
-    die("Please login first");
+    header("Location: ../Admin1-Auth/login.php");
+    exit;
 }
 
-/*
-if(!isset($_SESSION['user_id'])){
-    $_SESSION['user_id']=1;
-}
-*/
 include "../config/database.php";
 
 $id = intval($_GET['id']);
@@ -59,7 +55,7 @@ $result = mysqli_query($conn,$sql);
         <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
         <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
         <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
-        <img src="truck.png" id="truck">
+        <img src="../truck.png" id="truck">
     </nav>
 <br><br>
 <br><br>
