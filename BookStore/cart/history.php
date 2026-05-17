@@ -2,10 +2,12 @@
 session_start();
 include '../config/database.php';
 
+$userid = $_SESSION['user_id'];
+
 $query = "
 SELECT 
-    orders.id,
     users.name,
+    orders.id,
     orders.total_amount,
     orders.payment_method,
     orders.status,
@@ -13,6 +15,7 @@ SELECT
 FROM orders
 INNER JOIN users
 ON orders.user_id = users.id
+WHERE orders.user_id = $userid
 ORDER BY orders.order_date DESC
 ";
 
@@ -26,23 +29,23 @@ $result = mysqli_query($conn, $query);
 </head>
 <body>
 
-<h1>All Orders</h1>
+
 
 <table border="1" cellpadding="10">
 <tr>
-    <th>Order ID</th>
+
     <th>Customer Name</th>
     <th>Total Amount</th>
     <th>Payment Method</th>
     <th>Status</th>
     <th>Order Date</th>
-    <th colspan="3">Control Status</th>
+
 </tr>
 
 <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
 <tr>
-    <td><?php echo $row['id']; ?></td>
+
 
     <td><?php echo htmlspecialchars($row['name']); ?></td>
 
@@ -56,30 +59,8 @@ $result = mysqli_query($conn, $query);
 
     <td><?php echo $row['order_date']; ?></td>
 
-    <td>
-        <button class="status-btn"
-                data-id="<?php echo $row['id']; ?>"
-                data-status="confirmed">
-            Confirmed
-        </button>
-    </td>
 
-    <td>
-        <button class="status-btn"
-                data-id="<?php echo $row['id']; ?>"
-                data-status="shipped">
-            Shipped
-        </button>
-    </td>
 
-    <td>
-        <button class="status-btn"
-                data-id="<?php echo $row['id']; ?>"
-                data-status="delivered">
-            Delivered
-        </button>
-    </td>
-</tr>
 
 <?php } ?>
 
