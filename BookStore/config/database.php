@@ -6,7 +6,7 @@ $password = "";
 $database = "online_bookstore";
 
 
-$conn = mysqli_connect($servername, $username, $password, $database,3307);
+$conn = mysqli_connect($servername, $username, $password, $database,3306);
 
 
 

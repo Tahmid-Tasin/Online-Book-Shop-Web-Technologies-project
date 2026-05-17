@@ -63,21 +63,17 @@ function searchBooks()
 {
     let q = document.getElementById("searchBox").value;
     let filter = document.getElementById("filter").value;
-
     let path = window.location.pathname;
-
     let url = "";
     let detailsPath = "";
 
 if (path.includes("book_details.php") || path.includes("book_list.php"))
 {
-    // book folder থেকে search
     url = "../cart/search_book.php";
     detailsPath = "../book/book_details.php?id=";
 }
 else
 {
-    // index.php থেকে search
     url = "cart/search_book.php";
     detailsPath = "book/book_details.php?id=";
 }
@@ -89,7 +85,7 @@ else
         data.forEach(book => {
             html += `
             <div class="card">
-                <img src="images/<?php echo htmlspecialchars($row['image_path']); ?>"> 
+                <img src="images/${book.image_path}">
                 <h2>${book.title}</h2>
                 <p>${book.author}</p>
                 <p>${book.price} Tk</p>
