@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "./config/database.php";
 
 $sql = "SELECT * FROM books";
@@ -29,7 +29,7 @@ $result = mysqli_query($conn,$sql);
         <span href="" id="aboutus" class="aco"><ion-icon name="information-outline"></ion-icon></span>
         <span href="" id="contactus" class="aco"><ion-icon name="call-outline"></ion-icon></span>
         <span href="" id="location" class="aco"><ion-icon name="location-outline"></ion-icon></span>
-        <a href="" id="login" class="aco">Login</a>
+        <a href="./Admin1-Auth/login.php" id="login" class="aco">Sign Up / Login</a>
         <img src="truck.png" id="truck">
     </nav>
 
