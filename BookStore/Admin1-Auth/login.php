@@ -24,12 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             setcookie('remember_email', $email, time() + (7 * 24 * 60 * 60), '/');
         }
 
-        if ($user['role'] === 'admin') {
-            header('Location: ../admin/dashboard.php');
-        } else {
-            header('Location: ../book/book_details.php');
-        }
-        exit;
+        // Replace your redirect block with this absolute root path check:
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+    // Force an absolute path starting from the server root folder
+    header("Location: /Online-Book-Shop-Web-Technologies-project/BookStore/admin.php?controller=admin&action=dashboard");
+} else {
+    // Force normal users cleanly back to the absolute storefront root
+    header("Location: /Online-Book-Shop-Web-Technologies-project/BookStore/index.php");
+}
+exit;
     } else {
         $error = 'Wrong email or password';
     }
