@@ -121,3 +121,45 @@ else
 
             return true; 
         }
+
+document.querySelectorAll(".status-btn").forEach(button => {
+
+    button.addEventListener("click", function(){
+
+        let orderId = this.dataset.id;
+        let newStatus = this.dataset.status;
+
+        let formData = new FormData();
+        formData.append("order_id", orderId);
+        formData.append("status", newStatus);
+
+        fetch("../admin/update_status.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if(data.success)
+            {
+                document.getElementById(
+                    "status-" + orderId
+                ).innerText = newStatus;
+            }
+            else
+            {
+                alert("Update failed");
+            }
+
+        })
+        .catch(() => {
+            alert("Error");
+        });
+
+    });
+
+});
+
+
+
+

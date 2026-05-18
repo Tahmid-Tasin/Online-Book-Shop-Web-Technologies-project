@@ -2,7 +2,16 @@
 session_start();
 include "../config/database.php";
 
+if(!isset($_SESSION['user_id']))
+{
+    header("Location: ../Admin1-Auth/login.php");
+    exit;
+} 
+
+$userid = $_SESSION['user_id'];
 $total = $_SESSION['cart_total'];
+
+
 
 ?>
 
@@ -16,9 +25,8 @@ $total = $_SESSION['cart_total'];
     <link rel="stylesheet" href="../style.css">
 </head>
 <body><h3>Total: <?php echo $total; ?></h3>
-
-<form action="" method="POST" onsubmit="return validateForm()">
-
+<form action="./ordersupload.php" method="POST" onsubmit="return validateForm()">
+<input type="hidden" name="total" value="<?php echo $total; ?>">
     <label for="payment">Select Payment Method:</label>
     <select id="payment" name="payment_method" required>
         <option value="">-- Choose Payment Method --</option>
@@ -39,6 +47,8 @@ $total = $_SESSION['cart_total'];
 
     <input type="submit" value="Submit Order">
 
-    <script src="../script.js"></script>
+</form>
+
+<script src="../script.js"></script>
 </body>
 </html>
